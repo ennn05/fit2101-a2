@@ -15,3 +15,17 @@ export const getCourseByCode = async (courseCode) => {
     ON i.inst_user_id = u.user_id WHERE course_code = ${courseCode};`;
     return courses[0];
 }
+
+export const createCourse = async (courseData) => {
+    const { course_code, course_title, total_credits, course_creator, course_status } = courseData;
+    
+    const today = new Date().toISOString();
+    
+    const newCourse = await sql`
+        INSERT INTO "LMS".course 
+        (course_code, course_title, course_total_credit, course_creator, course_status, course_date_created, course_date_updated)
+        VALUES (${course_code}, ${course_title}, ${total_credits}, ${course_creator}, ${course_status}, ${today}, ${today})
+        RETURNING *;
+    `;
+    
+    return newCourse[0];
