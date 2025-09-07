@@ -90,3 +90,5 @@ export const addCourse = async (req, res) => {
             message: "Failed to create course." 
         });
     }
+
+}
